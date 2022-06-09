@@ -13,7 +13,7 @@ import java.util.Optional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class APIUserServiceImple implements APIUserService{
+public class APIUserServiceImpl implements APIUserService{
   
   
   private final APIUserRepository apiUserRepository;
