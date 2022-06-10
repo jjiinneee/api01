@@ -11,6 +11,7 @@ import org.jjiinnee.api01.service.APIUserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
@@ -45,5 +46,28 @@ public class APIUserController {
   @PostMapping("/generateToken")
   public APITokenDTO generationToken(@RequestBody APIUserDTO apiUserDTO){
     return apiTokenService.makeTokens(apiUserDTO.getMid(), apiUserDTO.getMpw());
+  }
+  
+  
+  
+  @ApiOperation("Refresh Tokens with POST ")
+  @PostMapping("/refreshAccessToken")
+  public APITokenDTO refreshAccessToken(
+          @RequestParam("grant_type") String grantType,
+          @RequestParam("refresh_token") String refreshToken ){
+    
+    log.info("grantType: " + grantType);
+    log.info("refreshToken: " + refreshToken);
+    
+    if(grantType == null || grantType.equals("refresh_token") == false){
+      throw new BadRefreshRequestException();
+    }
+  
+    return apiTokenService.refreshTokens(refreshToken);
+  }
+  
+  
+  public static class BadRefreshRequestException extends RuntimeException {
+  
   }
 }
