@@ -22,7 +22,7 @@ public class APIAdvice {
     log.error(e);
     Map<String, String> errorMap = new HashMap<>();
     
-    errorMap.put("TIME", ""+System.currentTimeMillis());
+    errorMap.put("TIME", ""+ System.currentTimeMillis());
     errorMap.put("RESULT",  "USER ACCOUNT NOT FOUND");
     
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMap);
@@ -35,7 +35,7 @@ public class APIAdvice {
     log.error(e);
     Map<String, String> errorMap = new HashMap<>();
     
-    errorMap.put("TIME", ""+System.currentTimeMillis());
+    errorMap.put("TIME", ""+ System.currentTimeMillis());
     errorMap.put("RESULT",  "check grant_type & refresh_token parameter");
     
     return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(errorMap);
@@ -47,9 +47,22 @@ public class APIAdvice {
     log.error(e);
     Map<String, String> errorMap = new HashMap<>();
     
-    errorMap.put("TIME", ""+System.currentTimeMillis());
+    errorMap.put("TIME", ""+ System.currentTimeMillis());
     errorMap.put("RESULT",  "EXPIRED REFRESH TOKEN");
     
     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorMap);
+  }
+  
+  
+  @ExceptionHandler({java.util.NoSuchElementException.class})
+  public ResponseEntity<Map<String, String>> notFound(ExpiredJwtException e) {
+    
+    log.error(e);
+    Map<String, String> errorMap = new HashMap<>();
+    
+    errorMap.put("TIME", ""+ System.currentTimeMillis());
+    errorMap.put("RESULT",  "can not find data");
+    
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMap);
   }
 }
